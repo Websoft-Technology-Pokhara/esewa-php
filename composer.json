@@ -1,0 +1,19 @@
+{
+    "name": "wslib/esewa",
+    "description": "A library for php to integrate Esewa payment gateway",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "Wslib\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sagar Gurung",
+            "email": "sgrgug@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
