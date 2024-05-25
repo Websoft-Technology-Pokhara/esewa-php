@@ -14,8 +14,7 @@ class GenerateSignature
         $this->base64Signature = base64_encode($signature);
     }
 
-    public function get()
-    {
+    public function get(){
         return $this->base64Signature;
     }
 }
