@@ -4,7 +4,6 @@ namespace Wslib;
 
 use Wslib\GenerateSignature;
 
-
 class Esewa
 {
     // URL for production
@@ -25,7 +24,7 @@ class Esewa
         $array = ["DEV", "PROD"];
         self::$env = in_array($env, $array) ? $env : "DEV";
 
-        return new self;
+        return new self();
     }
 
     /*

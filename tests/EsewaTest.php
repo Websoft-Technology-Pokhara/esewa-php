@@ -3,6 +3,7 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
+use Wslib\Esewa;
 
 class EsewaTest extends TestCase
 {
