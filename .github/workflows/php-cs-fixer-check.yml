@@ -23,4 +23,4 @@ jobs:
         run: composer install
 
       - name: Run PHP-CS-Fixer in dry-run mode
-        run: vendor/bin/php-cs-fixer fix --dry-run --diff
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff .
