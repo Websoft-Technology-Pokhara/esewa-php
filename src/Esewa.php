@@ -97,7 +97,6 @@ class Esewa
         // Decode the JSON response
         $responseArray = json_decode($response, true);
 
-
         // Check for JSON decoding errors
         // if (json_last_error() !== JSON_ERROR_NONE) {
         //     throw new Exception('JSON decoding error: ' . json_last_error_msg());
