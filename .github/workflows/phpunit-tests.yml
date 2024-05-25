@@ -1,0 +1,26 @@
+name: PHPUnit Tests
+
+on: [push, pull_request]
+
+jobs:
+  phpunit-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: ['8.1', '8.2']  # Specify PHP versions
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest --prefer-dist
+
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit
