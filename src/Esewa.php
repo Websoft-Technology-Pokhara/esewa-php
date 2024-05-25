@@ -15,9 +15,6 @@ class Esewa
     private static string $env;
     // Secret Key
     private static string $secretKey = "8gBm/:&EnhH.1/q";
-    // Transaction UUID
-    private static string $transactionUUID;
-
 
     /*
     * @param string $env
@@ -41,17 +38,14 @@ class Esewa
     * @param float $productServiceCharge
     * @return void
     */
-    public static function config($t, string $successURL, string $failureURL, float $amount, string $productCode = "EPAYTEST", float $taxAmount = 0, float $productDeliveryCharge = 0, float $productServiceCharge = 0)
+    public static function config(string $transactionUUID, string $successURL, string $failureURL, float $amount, string $productCode = "EPAYTEST", float $taxAmount = 0, float $productDeliveryCharge = 0, float $productServiceCharge = 0)
     {
-        // set transaction UUID
-        self::$transactionUUID = uniqid() . time();
-
         // generate signature
         $totalAmount = $taxAmount + $amount + $productDeliveryCharge + $productServiceCharge;
-        $generateSignature = new GenerateSignature($totalAmount, $t, self::$secretKey, $productCode);
+        $generateSignature = new GenerateSignature($totalAmount, $transactionUUID, self::$secretKey, $productCode);
 
         // Data's to be send to eSewa
-        $postData = [
+        $data = [
             "amount"                    => $amount,
             "success_url"               => $successURL,
             "failure_url"               => $failureURL,
@@ -62,8 +56,7 @@ class Esewa
             "signed_field_names"        => "total_amount,transaction_uuid,product_code",
             "tax_amount"                => $taxAmount,
             "total_amount"              => $totalAmount,
-            // "transaction_uuid"          => self::$transactionUUID
-            "transaction_uuid"          => $t
+            "transaction_uuid"          => $transactionUUID
         ];
 
         // set url based on environment
@@ -71,14 +64,14 @@ class Esewa
 
         // Send response through form [Method = POST]
         echo "<form id='esewaForm' action='$url' method='post'>";
-        foreach ($postData as $key => $value) {
+        foreach ($data as $key => $value) {
             echo '<input type="hidden" name="' . $key . '" value="' . $value . '">';
         }
         echo '</form>';
         echo '<script type="text/javascript">document.getElementById("esewaForm").submit();</script>';
     }
 
-    public function validate(string $total_amount, string $transaction_uuid, bool $production = false, string $product_code = 'EPAYTEST')
+    public function validate(string $transaction_uuid, string $total_amount, bool $production = false, string $product_code = 'EPAYTEST')
     {
         if (!$production) {
             $url = "https://uat.esewa.com.np/api/epay/transaction/status/?product_code=$product_code&total_amount=$total_amount&transaction_uuid=$transaction_uuid";
